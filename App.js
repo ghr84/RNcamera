@@ -10,7 +10,17 @@ import PhotoCard from './PhotoCard';
 
 export default function App() {
 
+  getImagesFromLocalStore();
+  // useEffect(() => {
+  getImagesFromLocalStore = async () => {
+    console.log("asdf")
+    const value = await AsyncStorage.getItem('images');
+    const parsedData = JSON.parse(value)
+    setDataStorage(parsedData)
+  }
+  // });
   // Heldur utan um stöðu á myndavél front/back = true/false
+
 
   const [cameraStatus, setCameraStatus] = useState(false)
 
@@ -20,55 +30,55 @@ export default function App() {
     setCameraStatus(!cameraStatus)
   }
 
-  // Heldur utan um tekna mynd
+  // Heldur utan um local storage gögn/myndir 
 
-  //const [img, setImg] = useState();
+  const [imageArray, setImageArray] = useState([]);
+  const [dataStorage, setDataStorage] = useState([])
 
-  const [localStorageData, setLocalStorageData] = useState([]);
+  // useEffect(() => {
+  //   const test = async () => {
+  //     if (!images) {
+  //       console.log("asdf")
+  //       const res = await AsyncStorage.getItem('Images');
+  //       setImages(res);
+  //     }
+  //   }
+  // }, [images])
 
-  // Initializa tómt array sem heldur utan hverja mynd/base64 strengina
-
-  const imgArray = []
 
 
   // Tekur mynd - Cam tekur inn fallið sem props svo að myndavéla componentið hafi aðgang að fallinu
 
   const takePicture = async () => {
+
     if (camera) {
       const options = { quality: 1, base64: true };
 
       try {
         const data = await camera.takePictureAsync(options);
 
-        imgArray.push(data.base64)
+        setImageArray([...imageArray, data.base64])
 
-        // Setur imgArray inn í local storage sem streng 
-
-        await AsyncStorage.setItem('images', JSON.stringify(imgArray));
+        AsyncStorage.setItem('images', JSON.stringify([...imageArray, data.base64]));
 
 
       } catch (error) {
         console.log(error)
       }
     }
-    getImagesFromLocalStore()
+
   };
 
-  getImagesFromLocalStore = async () => {
-    const value = await AsyncStorage.getItem('images');
-    let parsedData = JSON.parse(value)
-    setLocalStorageData(parsedData)
-  }
 
 
-
+  console.log(dataStorage.length)
   return (
     <View style={styles.container}>
 
-      {cameraStatus ? <Cam getImagesFromLocalStore={getImagesFromLocalStore} handleCameraChange={handleCameraChange} takePicture={takePicture} /> : <Btn />}
+      {cameraStatus ? <Cam handleCameraChange={handleCameraChange} takePicture={takePicture} /> : <Btn />}
       {/* {!cameraStatus && <PhotoCard img={img} ></PhotoCard>} */}
-      {localStorageData.map(image =>
-        <Image key={image} style={styles.photo} source={{ uri: `data:image/png;base64,${image}` }} />
+      {dataStorage.map(image =>
+        <Image style={styles.photoCard} source={{ uri: `data:image/png;base64,${image}` }} />
       )}
       {/* <Image style={styles.photo} source={{ uri: `data:image/png;base64,${img}` }} /> */}
     </View>

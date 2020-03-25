@@ -16,13 +16,21 @@ import TakePicBtn from './TakePicBtn';
 import CloseBtn from './CloseBtn';
 import SuccessBadge from './SuccessBadge';
 
-const myCamera = ({ handleCameraChange, takePicture, getImagesFromLocalStore }) => {
+const myCamera = ({ handleCameraChange, takePicture, showSuccessBadge, handleSuccessBadgeChange }) => {
+
+    // Badge test
+
+    //const [showSuccessBadge, setShowSuccessBadge] = useState(false);
+
+    // const handleSuccessBadgeChange = () => {
+    //     takePicture()
+    //     setShowSuccessBadge(!showSuccessBadge)
+
+    // }
 
     const [flashStatus, setFlashStatus] = useState(Camera.Constants.FlashMode.off);
     const [hasPermission, setHasPermission] = useState(null);
     const [type, setType] = useState(Camera.Constants.Type.back);
-    // const [img, setImg] = useState();
-
 
     useEffect(() => {
         (async () => {
@@ -32,7 +40,6 @@ const myCamera = ({ handleCameraChange, takePicture, getImagesFromLocalStore }) 
 
     }, []);
 
-
     if (hasPermission === null) {
         return <View />;
     }
@@ -40,33 +47,16 @@ const myCamera = ({ handleCameraChange, takePicture, getImagesFromLocalStore }) 
         return <Text>No access to camera</Text>;
     }
 
-    // const takePicture = async () => {
-
-    //     if (camera) {
-    //         const options = { quality: 1, base64: true };
-
-    //         try {
-    //             const data = await camera.takePictureAsync(options);
-    //             setImg(data.base64);
-
-
-    //         } catch (error) {
-    //             console.log(error)
-    //         }
-    //     }
-
-    // };
-
-
     return (
         <View style={{ flex: 1 }}>
+
             <Camera style={styles.camera} type={type} flashMode={flashStatus} autoFocus={Camera.Constants.AutoFocus.on}
                 ref={ref => {
                     camera = ref;
                 }}
             >
-                <CloseBtn handleCameraChange={handleCameraChange} onPress={getImagesFromLocalStore}></CloseBtn>
-                <SuccessBadge />
+                <CloseBtn handleCameraChange={handleCameraChange}></CloseBtn>
+                {showSuccessBadge ? <SuccessBadge handleSuccessBadgeChange={handleSuccessBadgeChange} /> : null}
                 <View style={styles.bottomContainer}>
                     <TouchableOpacity style={styles.icons} onPress={() => {
                         setFlashStatus(

@@ -4,26 +4,28 @@ import { Feather, Ionicons } from '@expo/vector-icons/'
 
 // Local imports
 
-export default SuccessBadge = () => {
+export default SuccessBadge = ({ handleSuccessBadgeChange }) => {
 
 
     return (
-        <View>
-            <View style={styles.successBadge} >
-                <Ionicons name="ios-information-circle-outline" size={30} color={"white"} />
-                <Text style={styles.successText}>Myndin þín er aðgengileg á pöntunarskjá.</Text>
-                <View style={styles.closeBtn}>
+
+        <View style={styles.successBadge} >
+            <Ionicons name="ios-information-circle-outline" size={30} color={"white"} />
+            <Text style={styles.successText}>Myndin þín er aðgengileg á pöntunarskjá.</Text>
+            <TouchableOpacity onPress={handleSuccessBadgeChange}>
+                <View style={styles.closeBtn} >
                     <Feather name="x" size={24} color={"#06893D"} />
                 </View>
-            </View>
+            </TouchableOpacity>
         </View>
+
     );
 }
 
 const styles = StyleSheet.create({
     successBadge: {
-        marginTop: 16,
-        marginBottom: 16,
+        marginTop: 24,
+        marginBottom: 4,
         marginLeft: 8,
         marginRight: 8,
         padding: 16,

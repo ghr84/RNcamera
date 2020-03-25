@@ -5,26 +5,24 @@ import { Feather } from '@expo/vector-icons/'
 // Local imports
 
 
-export default Photo = ({ img, storeDataLocally, retrieveData }) => {
+export default Photo = ({ imageArray, deletePhoto }) => {
+
     const extendCard = () => {
 
     }
 
-
     return (
         <View>
-
-            <TouchableOpacity onPress={extendCard}>
-
-                <View style={styles.photoCard} >
-                    <Image style={styles.photo} source={{ uri: `data:image/png;base64,${img}` }} />
-                    <View style={styles.closeBtn}>
-                        <Feather name="x" size={26} color={"black"} />
-                    </View>
+            {imageArray.map((image, i) =>
+                <View key={i} style={styles.photoCard} >
+                    <Image style={styles.photo} source={{ uri: `data:image/png;base64,${image}` }} />
+                    <TouchableOpacity style={styles.closeBtn} onPress={() => deletePhoto(i)}>
+                        <View >
+                            <Feather name="x" size={26} color={"black"} />
+                        </View>
+                    </TouchableOpacity>
                 </View>
-
-            </TouchableOpacity>
-
+            )}
         </View>
     );
 }

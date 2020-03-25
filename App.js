@@ -1,51 +1,42 @@
+//Spurningar:
+//1. Afhverju þarf ég ekki að taka handlCameraChange fallið inn sem props á Btn componentinn
+
+
+
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, AsyncStorage, Image, Text } from 'react-native';
+import { Feather } from '@expo/vector-icons/'
 
 // Local imports
 
 import Cam from './MyCam';
 import Btn from './Btn';
 import PhotoCard from './PhotoCard';
-// import SuccessBadge from './SuccessBadge';
+
 
 export default function App() {
 
-  getImagesFromLocalStore();
-  // useEffect(() => {
-  getImagesFromLocalStore = async () => {
-    console.log("asdf")
-    const value = await AsyncStorage.getItem('images');
-    const parsedData = JSON.parse(value)
-    setDataStorage(parsedData)
-  }
-  // });
-  // Heldur utan um stöðu á myndavél front/back = true/false
+  // Heldur utan um local storage gögn/myndir 
 
+  const [imageArray, setImageArray] = useState([]);
 
-  const [cameraStatus, setCameraStatus] = useState(false)
+  // Sér um að skipta á milli myndavélar og heimaskjá 
 
-  // Sér um að skipta á milli myndavéla front/back
+  const [cameraStatus, setCameraStatus] = useState(false);
 
   handleCameraChange = () => {
     setCameraStatus(!cameraStatus)
   }
 
-  // Heldur utan um local storage gögn/myndir 
+  // Sér um að birta success badge þegar mynd er tekinn.
 
-  const [imageArray, setImageArray] = useState([]);
-  const [dataStorage, setDataStorage] = useState([])
+  const [showSuccessBadge, setShowSuccessBadge] = useState(false);
 
-  // useEffect(() => {
-  //   const test = async () => {
-  //     if (!images) {
-  //       console.log("asdf")
-  //       const res = await AsyncStorage.getItem('Images');
-  //       setImages(res);
-  //     }
-  //   }
-  // }, [images])
+  const handleSuccessBadgeChange = () => {
 
+    setShowSuccessBadge(!showSuccessBadge)
 
+  }
 
   // Tekur mynd - Cam tekur inn fallið sem props svo að myndavéla componentið hafi aðgang að fallinu
 
@@ -60,35 +51,47 @@ export default function App() {
         setImageArray([...imageArray, data.base64])
 
         AsyncStorage.setItem('images', JSON.stringify([...imageArray, data.base64]));
-
-
+        setShowSuccessBadge(true)
+        //handleSuccessBadgeChange()
       } catch (error) {
         console.log(error)
       }
     }
-
   };
 
+  // Fall sem sækjir myndir frá local storage sem streng og parsar svo strengnum í array 
 
+  useEffect(() => {
+    getImagesFromLocalStore = async () => {
+      const value = await AsyncStorage.getItem('images');
+      const parsedData = JSON.parse(value)
+      setImageArray(parsedData || [])
+    }
+    getImagesFromLocalStore();
+  }, []);
 
-  console.log(dataStorage.length)
+  // Eyðir mynd - Fall sem eyðir stakri mynd 
+
+  const deletePhoto = async (index) => {
+    const images = await AsyncStorage.getItem('images');
+    const parsedData = JSON.parse(images)
+    parsedData.splice(index, 1);
+    AsyncStorage.setItem('images', JSON.stringify(parsedData));
+    setImageArray(parsedData);
+  }
+
   return (
     <View style={styles.container}>
-
-      {cameraStatus ? <Cam handleCameraChange={handleCameraChange} takePicture={takePicture} /> : <Btn />}
-      {/* {!cameraStatus && <PhotoCard img={img} ></PhotoCard>} */}
-      {dataStorage.map(image =>
-        <Image style={styles.photoCard} source={{ uri: `data:image/png;base64,${image}` }} />
-      )}
-      {/* <Image style={styles.photo} source={{ uri: `data:image/png;base64,${img}` }} /> */}
+      {cameraStatus ? <Cam handleCameraChange={handleCameraChange} takePicture={takePicture} showSuccessBadge={showSuccessBadge} handleSuccessBadgeChange={handleSuccessBadgeChange} /> :
+        <View>
+          <Btn />
+          <PhotoCard imageArray={imageArray} deletePhoto={deletePhoto} />
+        </View>}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-
-  // Temp styles f photocard
-
   photoCard: {
     marginTop: 16,
     marginBottom: 16,
@@ -98,11 +101,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     position: "relative",
     alignSelf: "flex-start",
-    // width: 100,
-    // flexDirection: "row",
-    // alignItems: "center",
-    // alignSelf: 'stretch',
-    // justifyContent: "space-between",
     backgroundColor: "white",
     shadowColor: "#000",
     shadowOffset: {
@@ -114,8 +112,8 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   photo: {
-    height: 72,
-    width: 72,
+    height: 60,
+    width: 60,
   },
 
   // Temp styles f photocard

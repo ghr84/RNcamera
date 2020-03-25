@@ -15,7 +15,6 @@ export default Btn = () => {
                 <View style={styles.btn} >
                     <Feather name="camera" size={24} color={"white"} />
                     <Text style={styles.text}>Taka mynd</Text>
-
                 </View>
 
             </TouchableOpacity>

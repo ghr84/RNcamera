@@ -18,15 +18,7 @@ import SuccessBadge from './SuccessBadge';
 
 const myCamera = ({ handleCameraChange, takePicture, showSuccessBadge, handleSuccessBadgeChange }) => {
 
-    // Badge test
 
-    //const [showSuccessBadge, setShowSuccessBadge] = useState(false);
-
-    // const handleSuccessBadgeChange = () => {
-    //     takePicture()
-    //     setShowSuccessBadge(!showSuccessBadge)
-
-    // }
 
     const [flashStatus, setFlashStatus] = useState(Camera.Constants.FlashMode.off);
     const [hasPermission, setHasPermission] = useState(null);
@@ -60,15 +52,9 @@ const myCamera = ({ handleCameraChange, takePicture, showSuccessBadge, handleSuc
                 <View style={styles.bottomContainer}>
                     <TouchableOpacity style={styles.icons} onPress={() => {
                         setFlashStatus(
-
-                            // Tvær stöður : Flash auto .. default
-                            // Flash off
-
-                            // Flash Off / Flash On / Flash Auto ? 
-
-                            flashStatus === Camera.Constants.FlashMode.auto
-                                ? Camera.Constants.FlashMode.off
-                                : Camera.Constants.FlashMode.auto
+                            flashStatus === Camera.Constants.FlashMode.off
+                                ? Camera.Constants.FlashMode.torch
+                                : Camera.Constants.FlashMode.off
                         )
                     }}>
                         <Ionicons name="ios-flash" size={42} color={"white"} />
@@ -88,7 +74,6 @@ const myCamera = ({ handleCameraChange, takePicture, showSuccessBadge, handleSuc
                         }}>
                         <Ionicons name="ios-reverse-camera" size={42} color={"white"} />
                     </TouchableOpacity>
-
                 </View>
             </Camera>
         </View >

@@ -7,12 +7,8 @@ import { Feather } from '@expo/vector-icons/'
 
 export default Photo = ({ imageArray, deletePhoto }) => {
 
-    const extendCard = () => {
-
-    }
-
     return (
-        <View>
+        <View style={styles.photoCardContainer}>
             {imageArray.map((image, i) =>
                 <View key={i} style={styles.photoCard} >
                     <Image style={styles.photo} source={{ uri: `data:image/png;base64,${image}` }} />
@@ -28,20 +24,19 @@ export default Photo = ({ imageArray, deletePhoto }) => {
 }
 
 const styles = StyleSheet.create({
+
+    photoCardContainer: {
+        marginVertical: 24,
+        marginHorizontal: 32,
+        flexDirection: "row",
+        flexWrap: "wrap",
+        justifyContent: "space-between",
+    },
     photoCard: {
-        marginTop: 16,
-        marginBottom: 16,
-        marginLeft: 8,
-        marginRight: 8,
+        marginBottom: 32,
         padding: 12,
         borderRadius: 8,
-        position: "relative",
         alignSelf: "flex-start",
-        // width: 100,
-        // flexDirection: "row",
-        // alignItems: "center",
-        // alignSelf: 'stretch',
-        // justifyContent: "space-between",
         backgroundColor: "white",
         shadowColor: "#000",
         shadowOffset: {
@@ -53,8 +48,8 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     photo: {
-        height: 72,
-        width: 72,
+        height: 96,
+        width: 96,
     },
     closeBtn: {
         position: "absolute",
@@ -67,5 +62,4 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center"
     }
-
 });

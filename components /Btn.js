@@ -2,23 +2,16 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Feather } from '@expo/vector-icons/'
 
-// Local imports
-
-
 export default Btn = () => {
 
     return (
         <View>
-
             <TouchableOpacity onPress={handleCameraChange}>
-
                 <View style={styles.btn} >
                     <Feather name="camera" size={24} color={"white"} />
                     <Text style={styles.text}>Taka mynd</Text>
                 </View>
-
             </TouchableOpacity>
-
         </View>
     );
 }

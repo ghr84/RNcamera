@@ -1,24 +1,20 @@
 //Spurningar:
 //1. Afhverju þarf ég ekki að taka handlCameraChange fallið inn sem props á Btn componentinn
 
-
-
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, AsyncStorage, Image, Text } from 'react-native';
+import { StyleSheet, View, AsyncStorage } from 'react-native';
 import { Feather } from '@expo/vector-icons/'
 
 // Local imports
 
-import Cam from './MyCam';
-import Btn from './Btn';
-import PhotoCard from './PhotoCard';
+import Cam from './Screens/MyCam';
+import OpenCamBtn from './components /Btn';
+import PhotoCard from './components /PhotoCard';
+import PhotoModal from './components /PhotoModal';
+import SuccessBadgeModal from './components /SuccessBadgeModal';
 
 
 export default function App() {
-
-  // Heldur utan um local storage gögn/myndir 
-
-  const [imageArray, setImageArray] = useState([]);
 
   // Sér um að skipta á milli myndavélar og heimaskjá 
 
@@ -38,7 +34,11 @@ export default function App() {
 
   }
 
-  // Tekur mynd - Cam tekur inn fallið sem props svo að myndavéla componentið hafi aðgang að fallinu
+  // Cam comp tekur inn fallið sem props svo að myndavéla componentið hafi aðgang að fallinu
+
+  // Heldur utan um local storage gögn/myndir 
+
+  const [imageArray, setImageArray] = useState([]);
 
   const takePicture = async () => {
 
@@ -52,7 +52,6 @@ export default function App() {
 
         AsyncStorage.setItem('images', JSON.stringify([...imageArray, data.base64]));
         setShowSuccessBadge(true)
-        //handleSuccessBadgeChange()
       } catch (error) {
         console.log(error)
       }
@@ -70,7 +69,7 @@ export default function App() {
     getImagesFromLocalStore();
   }, []);
 
-  // Eyðir mynd - Fall sem eyðir stakri mynd 
+  // Eyðir mynd stakri mynd 
 
   const deletePhoto = async (index) => {
     const images = await AsyncStorage.getItem('images');
@@ -80,13 +79,26 @@ export default function App() {
     setImageArray(parsedData);
   }
 
+  // Modal Virkni
+
+  const [modalVisable, setModalVisability] = useState(false);
+  const [modalImage, setModalImage] = useState()
+
+  const handleModal = (image) => {
+    setModalImage(image)
+    setModalVisability(true)
+  }
+
+
   return (
     <View style={styles.container}>
-      {cameraStatus ? <Cam handleCameraChange={handleCameraChange} takePicture={takePicture} showSuccessBadge={showSuccessBadge} handleSuccessBadgeChange={handleSuccessBadgeChange} /> :
+      {cameraStatus ? <Cam handleCameraChange={handleCameraChange} takePicture={takePicture} handleSuccessBadgeChange={handleSuccessBadgeChange} /> :
         <View>
-          <Btn />
-          <PhotoCard imageArray={imageArray} deletePhoto={deletePhoto} />
+          <OpenCamBtn />
+          <PhotoCard imageArray={imageArray} deletePhoto={deletePhoto} handleModal={handleModal} />
         </View>}
+      <PhotoModal modalImage={modalImage} modalVisable={modalVisable} setModalVisability={setModalVisability} />
+      <SuccessBadgeModal></SuccessBadgeModal>
     </View>
   );
 }

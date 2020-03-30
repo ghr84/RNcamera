@@ -5,20 +5,17 @@ import { Text, View, TouchableOpacity, StyleSheet, Dimensions, Platform } from '
 
 import { Ionicons } from '@expo/vector-icons/'
 
-// Expo camera imports
+// Expo camera import
 
 import { Camera } from 'expo-camera';
-import { setLightEstimationEnabled } from 'expo/build/AR';
 
 // Local imports 
 
-import TakePicBtn from './TakePicBtn';
-import CloseBtn from './CloseBtn';
-import SuccessBadge from './SuccessBadge';
+import TakePicBtn from '../components /TakePicBtn';
+import CloseBtn from '../components /CloseBtn';
+import SuccessBadge from '../components /SuccessBadge';
 
-const myCamera = ({ handleCameraChange, takePicture, showSuccessBadge, handleSuccessBadgeChange }) => {
-
-
+export default Cam = ({ handleCameraChange, takePicture, showSuccessBadge, handleSuccessBadgeChange }) => {
 
     const [flashStatus, setFlashStatus] = useState(Camera.Constants.FlashMode.off);
     const [hasPermission, setHasPermission] = useState(null);
@@ -41,7 +38,6 @@ const myCamera = ({ handleCameraChange, takePicture, showSuccessBadge, handleSuc
 
     return (
         <View style={{ flex: 1 }}>
-
             <Camera style={styles.camera} type={type} flashMode={flashStatus} autoFocus={Camera.Constants.AutoFocus.on}
                 ref={ref => {
                     camera = ref;
@@ -129,4 +125,3 @@ const styles = StyleSheet.create({
 
 })
 
-export default myCamera;

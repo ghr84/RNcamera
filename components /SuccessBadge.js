@@ -5,10 +5,7 @@ import { Feather, Ionicons } from '@expo/vector-icons/'
 // Local imports
 
 export default SuccessBadge = ({ handleSuccessBadgeChange }) => {
-
-
     return (
-
         <View style={styles.successBadge} >
             <Ionicons name="ios-information-circle-outline" size={30} color={"white"} />
             <Text style={styles.successText}>Myndin þín er aðgengileg á pöntunarskjá.</Text>

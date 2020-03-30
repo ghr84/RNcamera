@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 
-const TakePicBtn = () => {
+export default TakePicBtn = () => {
 
     return (
         <View style={styles.btnHolder}>
@@ -40,5 +40,5 @@ const styles = StyleSheet.create({
     }
 })
 
-export default TakePicBtn
+
 

@@ -24,14 +24,12 @@ export default function App() {
     setCameraStatus(!cameraStatus)
   }
 
-  // Sér um að birta success badge þegar mynd er tekinn.
+  // Sér um að birta og fjarlægja success badge þegar mynd er tekinn.
 
   const [showSuccessBadge, setShowSuccessBadge] = useState(false);
 
   const handleSuccessBadgeChange = () => {
-
-    setShowSuccessBadge(!showSuccessBadge)
-
+    setShowSuccessBadge(false)
   }
 
   // Cam comp tekur inn fallið sem props svo að myndavéla componentið hafi aðgang að fallinu
@@ -44,14 +42,20 @@ export default function App() {
 
     if (camera) {
       const options = { quality: 1, base64: true };
-
       try {
         const data = await camera.takePictureAsync(options);
-
         setImageArray([...imageArray, data.base64])
-
         AsyncStorage.setItem('images', JSON.stringify([...imageArray, data.base64]));
-        setShowSuccessBadge(true)
+
+        // Birtir success badge
+
+        setShowSuccessBadge(!showSuccessBadge)
+
+        // Kallar í fall eftir 2 sec sem fjarlægjir success banner
+
+        setTimeout(() => {
+          handleSuccessBadgeChange()
+        }, 2000)
       } catch (error) {
         console.log(error)
       }
@@ -98,7 +102,7 @@ export default function App() {
           <PhotoCard imageArray={imageArray} deletePhoto={deletePhoto} handleModal={handleModal} />
         </View>}
       <PhotoModal modalImage={modalImage} modalVisable={modalVisable} setModalVisability={setModalVisability} />
-      <SuccessBadgeModal></SuccessBadgeModal>
+      <SuccessBadgeModal showSuccessBadge={showSuccessBadge} />
     </View>
   );
 }

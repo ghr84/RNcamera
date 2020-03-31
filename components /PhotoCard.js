@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
     photo: {
         height: 96,
         width: 96,
+        resizeMode: "cover"
     },
     closeBtn: {
         position: "absolute",

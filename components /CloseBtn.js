@@ -16,7 +16,7 @@ const CloseBtn = props => {
 
 const styles = StyleSheet.create({
     closeBtn: {
-        paddingTop: 32,
+        paddingTop: 20,
         paddingRight: 16,
         alignSelf: 'flex-end'
     }

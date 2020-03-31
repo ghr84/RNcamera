@@ -3,7 +3,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, AsyncStorage } from 'react-native';
-import { Feather } from '@expo/vector-icons/'
 
 // Local imports
 
@@ -24,7 +23,7 @@ export default function App() {
     setCameraStatus(!cameraStatus)
   }
 
-  // Sér um að birta og fjarlægja success badge þegar mynd er tekinn.
+  // successBadge modal virkni
 
   const [showSuccessBadge, setShowSuccessBadge] = useState(false);
 
@@ -51,11 +50,12 @@ export default function App() {
 
         setShowSuccessBadge(!showSuccessBadge)
 
-        // Kallar í fall eftir 2 sec sem fjarlægjir success banner
+        // Kallar í fall eftir 3.5 sec sem fjarlægjir success banner
 
         setTimeout(() => {
           handleSuccessBadgeChange()
         }, 2000)
+
       } catch (error) {
         console.log(error)
       }
@@ -73,7 +73,7 @@ export default function App() {
     getImagesFromLocalStore();
   }, []);
 
-  // Eyðir mynd stakri mynd 
+  // Eyðir stakri mynd 
 
   const deletePhoto = async (index) => {
     const images = await AsyncStorage.getItem('images');
@@ -83,7 +83,7 @@ export default function App() {
     setImageArray(parsedData);
   }
 
-  // Modal Virkni
+  // PhotoModal Virkni
 
   const [modalVisable, setModalVisability] = useState(false);
   const [modalImage, setModalImage] = useState()
@@ -147,7 +147,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    // padding: 16,
     backgroundColor: '#fff',
     justifyContent: 'center',
   },

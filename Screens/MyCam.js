@@ -13,7 +13,6 @@ import { Camera } from 'expo-camera';
 
 import TakePicBtn from '../components /TakePicBtn';
 import CloseBtn from '../components /CloseBtn';
-import SuccessBadge from '../components /SuccessBadge';
 
 export default Cam = ({ handleCameraChange, takePicture, showSuccessBadge, handleSuccessBadgeChange }) => {
 
@@ -44,7 +43,6 @@ export default Cam = ({ handleCameraChange, takePicture, showSuccessBadge, handl
                 }}
             >
                 <CloseBtn handleCameraChange={handleCameraChange}></CloseBtn>
-                {showSuccessBadge ? <SuccessBadge handleSuccessBadgeChange={handleSuccessBadgeChange} /> : null}
                 <View style={styles.bottomContainer}>
                     <TouchableOpacity style={styles.icons} onPress={() => {
                         setFlashStatus(

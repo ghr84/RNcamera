@@ -5,7 +5,11 @@ import Modal from 'react-native-modal';
 
 // Local imports
 
-export default Photo = ({ imageArray, deletePhoto, handleModal }) => {
+import DelPhotoModal from './DelPhotoModal';
+
+
+
+export default Photo = ({ imageArray, handleModal, setDelModalVisability }) => {
 
     return (
         <View style={styles.photoCardContainer}>
@@ -14,13 +18,12 @@ export default Photo = ({ imageArray, deletePhoto, handleModal }) => {
                     <TouchableOpacity onPress={() => handleModal(image)}>
                         <View style={styles.photoCard} >
                             <Image style={styles.photo} source={{ uri: `data:image/png;base64,${image}` }} />
-                            <TouchableOpacity style={styles.closeBtn} onPress={() => deletePhoto(i)}>
-                                <View >
-                                    <Feather name="x" size={26} color={"black"} />
-                                </View>
+                            <TouchableOpacity style={styles.closeBtn} onPress={() => setDelModalVisability(true)}>
+                                <Feather name="x" size={26} color={"black"} />
                             </TouchableOpacity>
                         </View>
                     </TouchableOpacity>
+                    <DelPhotoModal i={i} />
                 </View>
             )
             }

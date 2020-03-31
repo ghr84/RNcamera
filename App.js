@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, AsyncStorage } from 'react-native';
+import { ScreenOrientation } from 'expo';
 
 // Local imports
 
@@ -14,6 +15,10 @@ import SuccessBadgeModal from './components /SuccessBadgeModal';
 
 
 export default function App() {
+
+  // Læsir appið í portrait mode 
+
+  ScreenOrientation.lockAsync('PORTRAIT');
 
   // Sér um að skipta á milli myndavélar og heimaskjá 
 
@@ -93,9 +98,9 @@ export default function App() {
     setModalVisability(true)
   }
 
-
+  ScreenOrientation.lockAsync("PORTRAIT")
   return (
-    <View style={styles.container}>
+    <View style={styles.container} >
       {cameraStatus ? <Cam handleCameraChange={handleCameraChange} takePicture={takePicture} handleSuccessBadgeChange={handleSuccessBadgeChange} /> :
         <View>
           <OpenCamBtn />

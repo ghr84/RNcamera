@@ -12,8 +12,6 @@ import OpenCamBtn from './components /Btn';
 import PhotoCard from './components /PhotoCard';
 import PhotoModal from './components /PhotoModal';
 import SuccessBadgeModal from './components /SuccessBadgeModal';
-import DelPhotoModal from './components /DelPhotoModal'
-
 
 export default function App() {
 
@@ -88,6 +86,7 @@ export default function App() {
     AsyncStorage.setItem('images', JSON.stringify(parsedData));
     setImageArray(parsedData);
     setDelModalVisability(false)
+
   }
 
   // Höndlar birtingu á photo modal
@@ -97,7 +96,7 @@ export default function App() {
 
   // Höndlar birtingu á delete photo modal
 
-  const [delModalVisable, setDelModalVisability] = useState(false);
+  const [delModalVisable, setDelModalVisability] = useState(-1);
 
   // Heldur utan PhotoModal Virkni 
 
@@ -108,71 +107,31 @@ export default function App() {
 
   return (
     <View style={styles.container} >
-      {cameraStatus ? <Cam handleCameraChange={handleCameraChange} takePicture={takePicture} handleSuccessBadgeChange={handleSuccessBadgeChange} /> :
+      {cameraStatus ? <Cam handleCameraChange={handleCameraChange}
+        takePicture={takePicture}
+        handleSuccessBadgeChange={handleSuccessBadgeChange} /> :
         <View>
           <OpenCamBtn />
-          <PhotoCard imageArray={imageArray} deletePhoto={deletePhoto} handleModal={handleModal} setDelModalVisability={setDelModalVisability} />
+          <PhotoCard imageArray={imageArray}
+            deletePhoto={deletePhoto}
+            handleModal={handleModal}
+            setDelModalVisability={setDelModalVisability}
+            delModalVisable={delModalVisable}
+          />
         </View>}
-      <PhotoModal modalImage={modalImage} modalVisable={modalVisable} setModalVisability={setModalVisability} />
+      <PhotoModal modalImage={modalImage}
+        modalVisable={modalVisable}
+        setModalVisability={setModalVisability} />
+
       <SuccessBadgeModal showSuccessBadge={showSuccessBadge} />
-      <DelPhotoModal delModalVisable={delModalVisable} setDelModalVisability={setDelModalVisability} deletePhoto={deletePhoto} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  photoCard: {
-    marginTop: 16,
-    marginBottom: 16,
-    marginLeft: 8,
-    marginRight: 8,
-    padding: 12,
-    borderRadius: 8,
-    position: "relative",
-    alignSelf: "flex-start",
-    backgroundColor: "white",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  photo: {
-    height: 60,
-    width: 60,
-  },
-
-  // Temp styles f photocard
-
-  closeBtn: {
-    position: "absolute",
-    top: -18,
-    right: -18,
-    backgroundColor: "#F0EAEA",
-    borderRadius: 20,
-    height: 36,
-    width: 36,
-    alignItems: "center",
-    justifyContent: "center"
-  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
     justifyContent: 'center',
-  },
-  btn: {
-    backgroundColor: "brown",
-    height: 80,
-    width: 120,
-    alignSelf: "center",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  text: {
-    fontSize: 24,
-    color: "white"
   }
 });

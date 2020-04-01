@@ -3,17 +3,29 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { Feather } from '@expo/vector-icons/'
 import Modal from 'react-native-modal';
 
-export default DelPhotoModal = ({ delModalVisable, setDelModalVisability, deletePhoto, i }) => {
+// export default DelPhotoModal = ({ delModalVisable, setDelModalVisability, deletePhoto, index }) => {
+
+//     return (
+//         <View style={styles.myView}>
+//             <Text>My Modal</Text>
+//             <TouchableOpacity onPress={() => { deletePhoto() }}>
+//                 <Text>Hnappur</Text>
+//             </TouchableOpacity>
+//         </View>
+//     )
+// }
+export default delPhotoModal = ({ delModalVisable, setDelModalVisability, deletePhoto, index }) => {
 
     return (
         <Modal
             style={styles.modalContainer}
-            isVisible={delModalVisable}
+            isVisible={index === delModalVisable}
             animationIn="fadeIn"
             animationOut="fadeOut"
             animationInTiming={300}
             animationOutTiming={300}
             backdropTransitionOutTiming={0}
+
         >
             <View style={styles.modalHeader}>
                 <TouchableOpacity onPress={() => setDelModalVisability(false)}>
@@ -26,22 +38,25 @@ export default DelPhotoModal = ({ delModalVisable, setDelModalVisability, delete
                 </Text>
             </View>
             <View style={styles.btnHolder}>
-                <TouchableOpacity style={styles.cancelBtn} onPress={() => setDelModalVisability(false)}>
+                <TouchableOpacity style={styles.cancelBtn} onPress={() => setDelModalVisability(-1)}>
                     <Text style={styles.cancelBtnText}>
                         Hætta við
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.confirmBtn} onPress={() => deletePhoto(i)} >
+                <TouchableOpacity style={styles.confirmBtn} onPress={() => { deletePhoto(index) }}>
                     <Text style={styles.confirmBtnText}>
                         Eyða
                     </Text>
                 </TouchableOpacity>
             </View>
-        </Modal >
+        </Modal>
     )
 }
 const styles = StyleSheet.create({
+    myView: {
+        elevation: 100,
 
+    },
     modalContainer: {
         maxHeight: 170,
         width: "95%",

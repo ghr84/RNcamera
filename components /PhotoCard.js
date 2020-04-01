@@ -1,37 +1,51 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, Alert } from 'react-native';
+import React from 'react';
+import { StyleSheet, View, TouchableOpacity, Image, Text } from 'react-native';
 import { Feather } from '@expo/vector-icons/';
-import Modal from 'react-native-modal';
+//import Modal from 'react-native-modal';
+
 
 // Local imports
 
 import DelPhotoModal from './DelPhotoModal';
 
-
-
-export default Photo = ({ imageArray, handleModal, setDelModalVisability }) => {
+export default Photo = ({ imageArray, handleModal, setDelModalVisability, delModalVisable, deletePhoto }) => {
 
     return (
         <View style={styles.photoCardContainer}>
-            {imageArray.map((image, i) =>
-                <View key={i}  >
+            {imageArray.map((image, index) =>
+                <View key={index}>
                     <TouchableOpacity onPress={() => handleModal(image)}>
                         <View style={styles.photoCard} >
                             <Image style={styles.photo} source={{ uri: `data:image/png;base64,${image}` }} />
-                            <TouchableOpacity style={styles.closeBtn} onPress={() => setDelModalVisability(true)}>
+                            <TouchableOpacity style={styles.closeBtn} onPress={() => setDelModalVisability(index)}>
+                                {/* <TouchableOpacity style={styles.closeBtn} onPress={() => deletePhoto(i)}> */}
                                 <Feather name="x" size={26} color={"black"} />
                             </TouchableOpacity>
                         </View>
                     </TouchableOpacity>
-                    <DelPhotoModal i={i} />
+                    <DelPhotoModal
+                        index={index}
+                        delModalVisable={delModalVisable}
+                        setDelModalVisability={setDelModalVisability}
+                        deletePhoto={deletePhoto}
+                    />
                 </View>
+
+                // Virðist ekki delete myndum í réttri röð .. i er ekku að virka eins og skildi .. þarf ég að taka delModal inn í map()?
+                // spyrja Smára hvernig Ideal setup er 
+
+                // image er strengurinn í hverju staki .. i er id á hverjum streng/staki
             )
             }
-        </View >
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
+    test: {
+        fontSize: 24,
+        color: "black"
+    },
     photoCardContainer: {
         marginVertical: 24,
         marginHorizontal: 32,

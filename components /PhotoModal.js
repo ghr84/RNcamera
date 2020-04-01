@@ -32,6 +32,8 @@ export default PictureModal = ({ modalVisable, modalImage, setModalVisability })
         // </View>
 
 
+
+
     )
 }
 const styles = StyleSheet.create({

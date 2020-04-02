@@ -18,7 +18,6 @@ export default Photo = ({ imageArray, handleModal, setDelModalVisability, delMod
                         <View style={styles.photoCard} >
                             <Image style={styles.photo} source={{ uri: `data:image/png;base64,${image}` }} />
                             <TouchableOpacity style={styles.closeBtn} onPress={() => setDelModalVisability(index)}>
-                                {/* <TouchableOpacity style={styles.closeBtn} onPress={() => deletePhoto(i)}> */}
                                 <Feather name="x" size={26} color={"black"} />
                             </TouchableOpacity>
                         </View>
@@ -31,10 +30,7 @@ export default Photo = ({ imageArray, handleModal, setDelModalVisability, delMod
                     />
                 </View>
 
-                // Virðist ekki delete myndum í réttri röð .. i er ekku að virka eins og skildi .. þarf ég að taka delModal inn í map()?
                 // spyrja Smára hvernig Ideal setup er 
-
-                // image er strengurinn í hverju staki .. i er id á hverjum streng/staki
             )
             }
         </View>

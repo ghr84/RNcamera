@@ -3,28 +3,19 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { Feather } from '@expo/vector-icons/'
 import Modal from 'react-native-modal';
 
-// export default DelPhotoModal = ({ delModalVisable, setDelModalVisability, deletePhoto, index }) => {
-
-//     return (
-//         <View style={styles.myView}>
-//             <Text>My Modal</Text>
-//             <TouchableOpacity onPress={() => { deletePhoto() }}>
-//                 <Text>Hnappur</Text>
-//             </TouchableOpacity>
-//         </View>
-//     )
-// }
 export default delPhotoModal = ({ delModalVisable, setDelModalVisability, deletePhoto, index }) => {
 
     return (
         <Modal
             style={styles.modalContainer}
             isVisible={index === delModalVisable}
-            animationIn="fadeIn"
-            animationOut="fadeOut"
+            animationIn="slideInUp"
+            animationOut="slideOutDown"
             animationInTiming={300}
             animationOutTiming={300}
             backdropTransitionOutTiming={0}
+            backdropOpacity={0.5}
+            onBackdropPress={() => { setDelModalVisability(false) }}
 
         >
             <View style={styles.modalHeader}>
@@ -58,32 +49,31 @@ const styles = StyleSheet.create({
 
     },
     modalContainer: {
-        maxHeight: 170,
-        width: "95%",
+        width: "100%",
         justifyContent: "space-between",
         alignSelf: "center",
         backgroundColor: 'white',
-        borderRadius: 4,
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        position: "absolute",
+        bottom: 0,
+        margin: 0,
     },
     modalHeader: {
         alignSelf: "flex-end",
         paddingHorizontal: 8,
-        paddingVertical: 8
+        paddingVertical: 8,
     },
     textContainer: {
         paddingHorizontal: 20,
+        paddingTop: 12,
+        paddingBottom: 18,
         alignContent: "center"
     },
     bodyText: {
         color: "#333333",
-        fontSize: 18,
+        fontSize: 19,
+        fontWeight: "400"
     },
     btnHolder: {
         flexDirection: "row",
@@ -96,7 +86,7 @@ const styles = StyleSheet.create({
     cancelBtn: {
         fontSize: 14,
         height: 40,
-        width: 144,
+        width: 158,
         borderRadius: 4,
         borderColor: "#B1B1B1",
         borderWidth: 1,
@@ -106,10 +96,11 @@ const styles = StyleSheet.create({
     cancelBtnText: {
         fontSize: 17,
         color: "#333333",
+        fontWeight: "500"
     },
     confirmBtn: {
         height: 40,
-        width: 144,
+        width: 158,
         backgroundColor: "#EB5757",
         borderRadius: 4,
         justifyContent: "center",
@@ -118,6 +109,7 @@ const styles = StyleSheet.create({
     confirmBtnText: {
         color: "white",
         fontSize: 17,
+        fontWeight: "500"
     },
 
 })

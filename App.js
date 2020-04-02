@@ -1,5 +1,7 @@
 //Spurningar:
 //1. Afhverju þarf ég ekki að taka handlCameraChange fallið inn sem props á Btn componentinn
+//2. Er good practice að nota alltaf func components en ekki class
+//3. PhotoModal.js afhverju þegar ég nora onBackDropPress={()=>{setModalVis..(false)}} kemur error
 
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, AsyncStorage } from 'react-native';
@@ -127,7 +129,6 @@ export default function App() {
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

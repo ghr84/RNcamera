@@ -104,7 +104,10 @@ export default function App() {
 
   const handleModal = (image) => {
     setModalImage(image)
+    // image.getSize(`data:image/png;base64,${image}`, (width, height) => { setImageDim({ width, height }) });
+    // console.log(imageDim)
     setModalVisability(true)
+
   }
 
   return (
@@ -121,9 +124,11 @@ export default function App() {
             delModalVisable={delModalVisable}
           />
         </View>}
-      <PhotoModal modalImage={modalImage}
+      <PhotoModal
+        modalImage={modalImage}
         modalVisable={modalVisable}
-        setModalVisability={setModalVisability} />
+        setModalVisability={setModalVisability}
+      />
 
       <SuccessBadgeModal showSuccessBadge={showSuccessBadge} />
     </View>

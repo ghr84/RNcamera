@@ -1,10 +1,26 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Image } from 'react-native';
 import { Feather } from '@expo/vector-icons/'
 import Modal from 'react-native-modal';
 
-export default PictureModal = ({ modalVisable, modalImage, setModalVisability }) => {
+export default PhotoModal = ({ modalVisable, modalImage, setModalVisability }) => {
 
+    const [imageDim, setImageDim] = useState({ width: 0, height: 0 })
+
+    const isPortrait = () => {
+        if (imageDim.width < 2500) {
+            return true
+        }
+        return false
+    }
+
+    if (modalImage) {
+        Image.getSize(`data:image/png;base64,${modalImage}`, (width, height) => {
+            if (width !== imageDim.width) {
+                setImageDim({ width, height })
+            }
+        });
+    }
     return (
         <Modal
             style={styles.modalContainer}
@@ -15,7 +31,6 @@ export default PictureModal = ({ modalVisable, modalImage, setModalVisability })
             animationInTiming={300}
             animationOutTiming={300}
             backdropTransitionOutTiming={0}
-        // onBackdropPress={() => setModalVisability(false)}>
         >
             <View style={styles.modalPhotoHeader}>
                 <TouchableOpacity onPress={() => setModalVisability(false)}>
@@ -26,7 +41,7 @@ export default PictureModal = ({ modalVisable, modalImage, setModalVisability })
                 </TouchableOpacity>
             </View>
             <View >
-                <Image style={styles.modalPhoto} source={{ uri: `data:image/png;base64,${modalImage}` }} />
+                <Image style={isPortrait() ? styles.modalPhotoPortrait : styles.modalPhoto} source={{ uri: `data:image/png;base64,${modalImage}` }} />
             </View>
         </Modal >
     )
@@ -42,12 +57,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#17202A',
     },
     modalPhotoHeader: {
+        zIndex: 1,
         position: "absolute",
         top: 0,
         width: "100%",
-        backgroundColor: '#17202A',
-        paddingHorizontal: 6,
-        paddingVertical: 6,
+        backgroundColor: "transparent",
+        paddingTop: 20,
+        paddingHorizontal: 4,
         borderTopLeftRadius: 4,
         borderTopRightRadius: 4,
         flexDirection: "row",
@@ -59,4 +75,11 @@ const styles = StyleSheet.create({
         width: "100%",
         resizeMode: "contain",
     },
+    modalPhotoPortrait: {
+        zIndex: 0,
+        alignSelf: "center",
+        height: "100%",
+        width: "100%",
+        resizeMode: "cover",
+    }
 })

@@ -104,8 +104,6 @@ export default function App() {
 
   const handleModal = (image) => {
     setModalImage(image)
-    // image.getSize(`data:image/png;base64,${image}`, (width, height) => { setImageDim({ width, height }) });
-    // console.log(imageDim)
     setModalVisability(true)
 
   }

@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Image, Text, Animated } from 'react-native';
 import { Feather } from '@expo/vector-icons/'
 import Modal from 'react-native-modal';
+
+
+// Local Imports
+
+import ModalBtmMenu from './PhotoModalBtmMenu';
 
 export default PhotoModal = ({ modalVisable, modalImage, setModalVisability }) => {
 
     const [imageDim, setImageDim] = useState({ width: 0, height: 0 })
 
-    const isPortrait = () => {
+    const IsPhotoPortrait = () => {
         if (imageDim.width < 2500) {
             return true
         }
@@ -21,6 +26,15 @@ export default PhotoModal = ({ modalVisable, modalImage, setModalVisability }) =
             }
         });
     }
+
+    // Birtir og felur BtmModalMenu 
+
+    const [modalBtmMenuVisible, setModalBtmMenuVisibility] = useState(true);
+
+    handleBtmModal = () => {
+        setModalBtmMenuVisibility(!modalBtmMenuVisible)
+    }
+
     return (
         <Modal
             style={styles.modalContainer}
@@ -36,14 +50,22 @@ export default PhotoModal = ({ modalVisable, modalImage, setModalVisability }) =
                 <TouchableOpacity onPress={() => setModalVisability(false)}>
                     <Feather style={styles.modalCloseBtn} name="x" size={28} color={"white"} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => setModalVisability(false)}>
+                {/* <TouchableOpacity onPress={() => setModalBtmMenuVisibility(true)}> */}
+                <TouchableOpacity onPress={() => handleBtmModal()}>
+
                     <Feather style={styles.modalDelBtn} name="more-horizontal" size={28} color={"white"} />
                 </TouchableOpacity>
             </View>
             <View >
-                <Image style={isPortrait() ? styles.modalPhotoPortrait : styles.modalPhoto} source={{ uri: `data:image/png;base64,${modalImage}` }} />
+                <Image style={IsPhotoPortrait() ? styles.modalPhotoPortrait : styles.modalPhoto} source={{ uri: `data:image/png;base64,${modalImage}` }} />
             </View>
-        </Modal >
+            <ModalBtmMenu
+                modalBtmMenuVisible={modalBtmMenuVisible}
+                setModalBtmMenuVisibility={setModalBtmMenuVisibility}
+            />
+            {/* {modalBtmMenuVisible ? <ModalBtmMenu animatedStyles={animatedStyles} modalBtmMenuVisible={modalBtmMenuVisible} setModalBtmMenuVisibility={setModalBtmMenuVisibility} />
+                : null} */}
+        </Modal>
     )
 }
 const styles = StyleSheet.create({
@@ -55,6 +77,7 @@ const styles = StyleSheet.create({
         bottom: 0,
         margin: 0,
         backgroundColor: '#17202A',
+        // opacity: 0.2
     },
     modalPhotoHeader: {
         zIndex: 1,
@@ -81,5 +104,6 @@ const styles = StyleSheet.create({
         height: "100%",
         width: "100%",
         resizeMode: "cover",
-    }
+    },
+
 })

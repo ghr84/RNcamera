@@ -1,98 +1,55 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
-import { Transitioning, Transition } from 'react-native-reanimated';
+import { StyleSheet, View, TouchableOpacity, Text, Animated } from 'react-native';
 
-export default PhotoModalBtmMenu = ({ modalBtmMenuVisible, setModalBtmMenuVisibility, translateModal, animatedStyles, isPhotoPortrait }) => {
+export default PhotoModalBtmMenu = ({ animatedStyles, deletePhoto, modalImage }) => {
 
-    // Get ekki notal modal inn í modal með "react-native-modal" .. Þannig er að gera custom transition á <View> ið 
-    // Er búinn að skoða myndbönd og lesa allskonar docs og án undantekninga er ógjörningur fyrir mig að skilja hvernig ég 
-    // nota sýnidæmin .. fyrir utan léleg docs sýnist mér react-native-reanimated vera fínt library og fann myndaband
-    // sem sýnir hvernig á gera einfalt transition þegar componentin renderast. Gerði nákvæmlega eins og myndbandið sýnir 
-    // fyrir utan að nota functional componentent. En ég fæ alltaf error varðandi ref. TypeError:null is not an object(evaluating
-    //'ref.current.animateNextTransition')
+    // Tjekkar ef mynd er portrait og ef fallið skilar true er viðeigandi stílar settir á btmModal 
 
-    const ref = useRef();
-    //console.log(ref)
+    const [imageDim, setImageDim] = useState({ width: 0, height: 0 })
 
-    //Þegar ég logga ref-ið þegar ref.current.animateNextTransition(); inn i animate functioinu er ekki til staðar
-    //og modalinn er opinn er ref=null en þegar ég loka modalnum fæ objectið .. vandamálið?
-
-    // Pælingin er ss að búa til Transition fasa sem ég klæði svo View-ið í fyrir neðan.
-
-    const transition = (
-        <Transition.Together>
-            <Transition.In type="slide-left" durationMs={3000} interpolation="easeInOut" />
-        </Transition.Together>
-    );
-
-    const [showBtmModal, setShowBtmModal] = useState(false);
-
-    const animate = () => {
-        setShowBtmModal(!showBtmModal)
-
-        // Fæ errorinn þegar þessi lína er virk
-        ref.current.animateNextTransition();
+    const IsPhotoPortrait = () => {
+        if (imageDim.width < 2500) {
+            return true
+        }
+        return false
     }
 
+    if (modalImage) {
+        Image.getSize(`data:image/png;base64,${modalImage}`, (width, height) => {
+            if (width !== imageDim.width) {
+                setImageDim({ width, height })
+            }
+        });
+    }
+
+
     return (
-        <View>
-            {/* <TouchableOpacity style={styles.button} onPress={() => setShowBtmModal(!showBtmModal)}> */}
-            <TouchableOpacity style={styles.button} onPress={() => animate()}>
-                <Text style={styles.buttonTxt} >Press</Text>
-            </TouchableOpacity>
-
-            {showBtmModal ?
-
-                //Klæði view-ið í const Transitioning sem tekur propsið transaition = (Transition.Together)fasann
-                //Og nota ref svo að við vitum hvað á að transitiona?
-
-                // View-ið sem á transitionast 
-
-                <Transitioning.View
-                    style={styles.modalContainer}
-                    ref={ref}
-                    transition={transition}
-                >
-                    <TouchableOpacity style={styles.btmMenuBtn} >
-                        <Text style={styles.delBtnText}>Eyða mynd</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.btmMenuBtn}>
-                        <Text style={styles.menuText}>Vista mynd</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.btmMenuBtn} >
-                        <Text style={styles.menuText}>Hætta við</Text>
-                    </TouchableOpacity>
-                </Transitioning.View>
-                : null}
-        </View>
-
+        <Animated.View style={animatedStyles.upper}>
+            <View
+                style={styles.modalContainer}
+            >
+                <TouchableOpacity style={styles.btmMenuBtn} onPress={deletePhoto}>
+                    <Text style={styles.delBtnText}>Eyða mynd</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.btmMenuBtn}>
+                    <Text style={styles.menuText}>Vista mynd</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.btmMenuBtn} >
+                    <Text style={styles.menuText}>Hætta við</Text>
+                </TouchableOpacity>
+            </View>
+        </Animated.View>
     )
-
 }
 
 const styles = StyleSheet.create({
-
-    buttonTxt: {
-        fontSize: 32,
-        color: "black"
-    },
-    button: {
-        marginBottom: 24,
-        justifyContent: "center",
-        alignItems: "center",
-        height: 50,
-        backgroundColor: "beige",
-
-    },
-
     modalContainer: {
         height: 200,
         width: "100%",
         flexDirection: "column",
         alignItems: "center",
         position: "absolute",
-        bottom: 200,
-        margin: 0,
+        bottom: -309,
         backgroundColor: "#FFFFFF",
         borderTopLeftRadius: 8,
         borderTopRightRadius: 8
@@ -103,7 +60,7 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         alignItems: "center",
         position: "absolute",
-        bottom: -209,
+        bottom: -201,
         margin: 0,
         backgroundColor: "#FFFFFF",
         borderTopLeftRadius: 8,

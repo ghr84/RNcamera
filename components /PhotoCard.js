@@ -4,29 +4,27 @@ import { Feather } from '@expo/vector-icons/';
 
 import DelPhotoModal from './DelPhotoModal';
 
-export default Photo = ({ imageArray, handleModal, setDelModalVisability, delModalVisable, deletePhoto }) => {
+export default Photo = ({ imageArray, handlePhotoModal, setDeletePhotoModalVisible, deletePhotoModalVisible, deletePhoto }) => {
 
     return (
         <View style={styles.photoCardContainer}>
             {imageArray.map((image, index) =>
                 <View key={index}>
-                    <TouchableOpacity onPress={() => handleModal(image)}>
+                    <TouchableOpacity onPress={() => handlePhotoModal(image)}>
                         <View style={styles.photoCard} >
                             <Image style={styles.photo} source={{ uri: `data:image/png;base64,${image}` }} />
-                            <TouchableOpacity style={styles.closeBtn} onPress={() => setDelModalVisability(index)}>
+                            <TouchableOpacity style={styles.closeBtn} onPress={() => setDeletePhotoModalVisible(index)}>
                                 <Feather name="x" size={26} color={"black"} />
                             </TouchableOpacity>
                         </View>
                     </TouchableOpacity>
                     <DelPhotoModal
                         index={index}
-                        delModalVisable={delModalVisable}
-                        setDelModalVisability={setDelModalVisability}
+                        deletePhotoModalVisible={deletePhotoModalVisible}
+                        setDeletePhotoModalVisible={setDeletePhotoModalVisible}
                         deletePhoto={deletePhoto}
                     />
                 </View>
-
-                // spyrja Smára hvernig Ideal setup er 
             )
             }
         </View>

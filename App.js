@@ -87,25 +87,26 @@ export default function App() {
     parsedData.splice(index, 1);
     AsyncStorage.setItem('images', JSON.stringify(parsedData));
     setImageArray(parsedData);
-    setDelModalVisability(false)
+    setDeletePhotoModalVisible(false)
 
   }
 
   // Höndlar birtingu á photo modal
 
-  const [modalVisable, setModalVisability] = useState(false);
+  const [photoModalVisable, setPhotoModalVisibility] = useState(false);
   const [modalImage, setModalImage] = useState()
 
   // Höndlar birtingu á delete photo modal
 
-  const [delModalVisable, setDelModalVisability] = useState(-1);
+  const [deletePhotoModalVisible, setDeletePhotoModalVisible] = useState(-1);
 
-  // Heldur utan PhotoModal Virkni 
+  // Þegar ýtt er á photoCard köllum við á þetta fall með viðeigandi mynd sem argument 
+  // og setjum state-ið með þeirri mynd og birtum í myndaModalnum. Að lokum verður 
+  // state-ið = true, sem heldur utan um að birta myndaModalinn.
 
-  const handleModal = (image) => {
+  const handlePhotoModal = (image) => {
     setModalImage(image)
-    setModalVisability(true)
-
+    setPhotoModalVisibility(true)
   }
 
   return (
@@ -117,17 +118,17 @@ export default function App() {
           <OpenCamBtn />
           <PhotoCard imageArray={imageArray}
             deletePhoto={deletePhoto}
-            handleModal={handleModal}
-            setDelModalVisability={setDelModalVisability}
-            delModalVisable={delModalVisable}
+            handlePhotoModal={handlePhotoModal}
+            setDeletePhotoModalVisible={setDeletePhotoModalVisible}
+            deletePhotoModalVisible={deletePhotoModalVisible}
           />
         </View>}
       <PhotoModal
         modalImage={modalImage}
-        modalVisable={modalVisable}
-        setModalVisability={setModalVisability}
+        photoModalVisable={photoModalVisable}
+        setPhotoModalVisibility={setPhotoModalVisibility}
+        deletePhoto={deletePhoto}
       />
-
       <SuccessBadgeModal showSuccessBadge={showSuccessBadge} />
     </View>
   );

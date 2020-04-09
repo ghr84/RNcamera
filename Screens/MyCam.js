@@ -14,7 +14,8 @@ import { Camera } from 'expo-camera';
 import TakePicBtn from '../components /TakePicBtn';
 import CloseBtn from '../components /CloseBtn';
 
-export default Cam = ({ handleCameraChange, takePicture, showSuccessBadge, handleSuccessBadgeChange }) => {
+
+export default Cam = ({ handleCameraChange, takePicture }) => {
 
     const [flashStatus, setFlashStatus] = useState(Camera.Constants.FlashMode.off);
     const [hasPermission, setHasPermission] = useState(null);
@@ -42,6 +43,7 @@ export default Cam = ({ handleCameraChange, takePicture, showSuccessBadge, handl
                     camera = ref;
                 }}
             >
+
                 <CloseBtn handleCameraChange={handleCameraChange}></CloseBtn>
                 <View style={styles.bottomContainer}>
                     <TouchableOpacity style={styles.icons} onPress={() => {

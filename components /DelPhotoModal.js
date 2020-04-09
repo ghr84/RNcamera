@@ -3,90 +3,102 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { Feather } from '@expo/vector-icons/'
 import Modal from 'react-native-modal';
 
-export default delPhotoModal = ({ delModalVisable, setDelModalVisability, deletePhoto, index }) => {
+export default delPhotoModal = ({ deletePhotoModalVisible, setDeletePhotoModalVisible, deletePhoto, index }) => {
 
     return (
-        <Modal
-            style={styles.modalContainer}
-            isVisible={index === delModalVisable}
-            animationIn="slideInUp"
-            animationOut="slideOutDown"
-            animationInTiming={300}
-            animationOutTiming={300}
-            backdropTransitionOutTiming={0}
-            backdropOpacity={0.5}
-            onBackdropPress={() => { setDelModalVisability(false) }}
 
-        >
-            <View style={styles.modalHeader}>
-                <TouchableOpacity onPress={() => setDelModalVisability(false)}>
-                    <Feather style={styles.modalCloseBtn} name="x" size={26} color={"black"} />
-                </TouchableOpacity>
-            </View>
-            <View style={styles.textContainer} >
-                <Text style={styles.bodyText}>
-                    Ertu viss um að þú viljir eyða myndinni?
-                </Text>
-            </View>
-            <View style={styles.btnHolder}>
-                <TouchableOpacity style={styles.cancelBtn} onPress={() => setDelModalVisability(-1)}>
-                    <Text style={styles.cancelBtnText}>
-                        Hætta við
+        <View style={styles.container}>
+            <Modal
+                style={styles.modalContainer}
+                isVisible={index === deletePhotoModalVisible}
+                animationIn="slideInUp"
+                animationOut="slideOutDown"
+                animationInTiming={300}
+                animationOutTiming={300}
+                backdropTransitionOutTiming={0}
+                backdropOpacity={0.5}
+                // modal festist efst á skjá með þessa virkni 
+                // Nema ég setti pos abs og top 420 ,, virkar ekki að nota bottom 0 ??
+                swipeDirection={"down"}
+                swipeThreshold={50}
+                onSwipeComplete={() => { setDeletePhotoModalVisible(false) }}
+                onBackdropPress={() => { setDeletePhotoModalVisible(false) }}
+            >
+                <View style={styles.dragModalDiv}></View>
+                <View style={styles.textContainer} >
+                    <Text style={styles.bodyText}>
+                        Ertu viss um að þú viljir eyða myndinni?
                     </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.confirmBtn} onPress={() => { deletePhoto(index) }}>
-                    <Text style={styles.confirmBtnText}>
-                        Eyða
+                </View>
+                <View style={styles.btnHolder}>
+                    <TouchableOpacity style={styles.confirmBtn} onPress={() => { deletePhoto(index) }}>
+                        <Text style={styles.confirmBtnText}>
+                            Eyða
                     </Text>
-                </TouchableOpacity>
-            </View>
-        </Modal>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.cancelBtn} onPress={() => setDeletePhotoModalVisible(-1)}>
+                        <Text style={styles.cancelBtnText}>
+                            Hætta við
+                    </Text>
+                    </TouchableOpacity>
+                </View>
+            </Modal>
+        </View>
     )
 }
 const styles = StyleSheet.create({
-    myView: {
-        elevation: 100,
-
-    },
     modalContainer: {
         width: "100%",
-        justifyContent: "space-between",
+        // maxHeight: 240,
         alignSelf: "center",
         backgroundColor: 'white',
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
         position: "absolute",
-        bottom: 0,
+        // bottom: 0,
+        top: 429,
         margin: 0,
     },
-    modalHeader: {
-        alignSelf: "flex-end",
-        paddingHorizontal: 8,
-        paddingVertical: 8,
+    dragModalDiv: {
+        height: 5,
+        width: 72,
+        alignSelf: "center",
+        backgroundColor: "lightgrey",
+        margin: 8,
+        borderRadius: 8,
     },
     textContainer: {
-        paddingHorizontal: 20,
-        paddingTop: 12,
-        paddingBottom: 18,
-        alignContent: "center"
+        paddingHorizontal: 16,
+        paddingTop: 32,
+        paddingBottom: 8,
+        alignContent: "center",
+
     },
     bodyText: {
+        textAlign: "center",
         color: "#333333",
-        fontSize: 19,
+        fontSize: 20,
         fontWeight: "400"
     },
+    titleText: {
+        // textAlign: "center",
+        color: "#333333",
+        fontSize: 20,
+        fontWeight: "bold"
+    },
     btnHolder: {
-        flexDirection: "row",
+        height: 130,
+        flexDirection: "column",
         justifyContent: "space-between",
         alignItems: "center",
-        paddingHorizontal: 20,
-        paddingBottom: 24,
+        paddingHorizontal: 16,
+        paddingBottom: 32,
         marginTop: 28
     },
     cancelBtn: {
         fontSize: 14,
-        height: 40,
-        width: 158,
+        height: 44,
+        width: "100%",
         borderRadius: 4,
         borderColor: "#B1B1B1",
         borderWidth: 1,
@@ -94,13 +106,13 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     cancelBtnText: {
-        fontSize: 17,
+        fontSize: 18,
         color: "#333333",
-        fontWeight: "500"
+        fontWeight: "bold"
     },
     confirmBtn: {
-        height: 40,
-        width: 158,
+        height: 46,
+        width: "100%",
         backgroundColor: "#EB5757",
         borderRadius: 4,
         justifyContent: "center",
@@ -108,8 +120,8 @@ const styles = StyleSheet.create({
     },
     confirmBtnText: {
         color: "white",
-        fontSize: 17,
-        fontWeight: "500"
+        fontSize: 19,
+        fontWeight: "bold"
     },
 
 })

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, TouchableOpacity, Image, Text, Animated } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, TouchableOpacity, Image, Animated } from 'react-native';
 import { Feather } from '@expo/vector-icons/'
 import Modal from 'react-native-modal';
 
@@ -8,7 +8,9 @@ import Modal from 'react-native-modal';
 
 import ModalBtmMenu from './PhotoModalBtmMenu';
 
-export default PhotoModal = ({ modalVisable, modalImage, setModalVisability }) => {
+export default PhotoModal = ({ photoModalVisable, modalImage, setPhotoModalVisibility, deletePhoto }) => {
+
+    // Tjekkar ef mynd er portrait og ef fallið skilar true er viðeigandi stílar settir á mynd
 
     const [imageDim, setImageDim] = useState({ width: 0, height: 0 })
 
@@ -27,19 +29,37 @@ export default PhotoModal = ({ modalVisable, modalImage, setModalVisability }) =
         });
     }
 
-    // Birtir og felur BtmModalMenu 
 
-    const [modalBtmMenuVisible, setModalBtmMenuVisibility] = useState(true);
+    // Btm Modal Animation
 
-    handleBtmModal = () => {
-        setModalBtmMenuVisibility(!modalBtmMenuVisible)
+    const [activated, setActivated] = useState(false)
+    const [upperAnimation, setUpperAnimation] = useState(new Animated.Value(0))
+
+    const btmModalAnimation = () => {
+        setActivated(!activated)
     }
 
+    useEffect(() => {
+        Animated.timing(upperAnimation,
+            {
+                toValue: activated ? -200 : 0,
+                duration: 400
+            }).start()
+    }, [activated])
+
+    const animatedStyles = {
+        upper: {
+            transform: [
+                {
+                    translateY: upperAnimation
+                }
+            ]
+        }
+    }
     return (
         <Modal
             style={styles.modalContainer}
-            isVisible={modalVisable}
-            supportedOrientations={['portrait']}
+            isVisible={photoModalVisable}
             animationIn="slideInUp"
             animationOut="slideOutDown"
             animationInTiming={300}
@@ -47,12 +67,10 @@ export default PhotoModal = ({ modalVisable, modalImage, setModalVisability }) =
             backdropTransitionOutTiming={0}
         >
             <View style={styles.modalPhotoHeader}>
-                <TouchableOpacity onPress={() => setModalVisability(false)}>
+                <TouchableOpacity onPress={() => setPhotoModalVisibility(false)}>
                     <Feather style={styles.modalCloseBtn} name="x" size={28} color={"white"} />
                 </TouchableOpacity>
-                {/* <TouchableOpacity onPress={() => setModalBtmMenuVisibility(true)}> */}
-                <TouchableOpacity onPress={() => handleBtmModal()}>
-
+                <TouchableOpacity onPress={() => btmModalAnimation()}>
                     <Feather style={styles.modalDelBtn} name="more-horizontal" size={28} color={"white"} />
                 </TouchableOpacity>
             </View>
@@ -60,11 +78,11 @@ export default PhotoModal = ({ modalVisable, modalImage, setModalVisability }) =
                 <Image style={IsPhotoPortrait() ? styles.modalPhotoPortrait : styles.modalPhoto} source={{ uri: `data:image/png;base64,${modalImage}` }} />
             </View>
             <ModalBtmMenu
-                modalBtmMenuVisible={modalBtmMenuVisible}
-                setModalBtmMenuVisibility={setModalBtmMenuVisibility}
+                animatedStyles={animatedStyles}
+                deletePhoto={deletePhoto}
+            //Afhverju brotnar appið þegar ég tek inn modalImage sem props?
+            //modalImage={modalImage}
             />
-            {/* {modalBtmMenuVisible ? <ModalBtmMenu animatedStyles={animatedStyles} modalBtmMenuVisible={modalBtmMenuVisible} setModalBtmMenuVisibility={setModalBtmMenuVisibility} />
-                : null} */}
         </Modal>
     )
 }
@@ -77,7 +95,6 @@ const styles = StyleSheet.create({
         bottom: 0,
         margin: 0,
         backgroundColor: '#17202A',
-        // opacity: 0.2
     },
     modalPhotoHeader: {
         zIndex: 1,

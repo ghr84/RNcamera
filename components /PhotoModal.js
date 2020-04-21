@@ -8,7 +8,7 @@ import Modal from 'react-native-modal';
 
 import ModalBtmMenu from './PhotoModalBtmMenu';
 
-export default PhotoModal = ({ photoModalVisable, modalImage, setPhotoModalVisibility, deletePhoto }) => {
+export default PhotoModal = ({ photoModalVisable, modalImage, setPhotoModalVisibility, deletePhoto, imageIndex }) => {
 
     // Tjekkar ef mynd er portrait og ef fallið skilar true er viðeigandi stílar settir á mynd
 
@@ -29,6 +29,12 @@ export default PhotoModal = ({ photoModalVisable, modalImage, setPhotoModalVisib
         });
     }
 
+    // Lokar báðum modals 
+
+    const handleClosingModals = () => {
+        setPhotoModalVisibility(false)
+        setActivated(false)
+    }
 
     // Btm Modal Animation
 
@@ -43,7 +49,7 @@ export default PhotoModal = ({ photoModalVisable, modalImage, setPhotoModalVisib
         Animated.timing(upperAnimation,
             {
                 toValue: activated ? -200 : 0,
-                duration: 400
+                duration: 300
             }).start()
     }, [activated])
 
@@ -67,7 +73,7 @@ export default PhotoModal = ({ photoModalVisable, modalImage, setPhotoModalVisib
             backdropTransitionOutTiming={0}
         >
             <View style={styles.modalPhotoHeader}>
-                <TouchableOpacity onPress={() => setPhotoModalVisibility(false)}>
+                <TouchableOpacity onPress={() => handleClosingModals()}>
                     <Feather style={styles.modalCloseBtn} name="x" size={28} color={"white"} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => btmModalAnimation()}>
@@ -78,10 +84,13 @@ export default PhotoModal = ({ photoModalVisable, modalImage, setPhotoModalVisib
                 <Image style={IsPhotoPortrait() ? styles.modalPhotoPortrait : styles.modalPhoto} source={{ uri: `data:image/png;base64,${modalImage}` }} />
             </View>
             <ModalBtmMenu
+                setActivated={setActivated}
+                setPhotoModalVisibility={setPhotoModalVisibility}
                 animatedStyles={animatedStyles}
                 deletePhoto={deletePhoto}
-            //Afhverju brotnar appið þegar ég tek inn modalImage sem props?
-            //modalImage={modalImage}
+                imageIndex={imageIndex}
+                modalImage={modalImage}
+                handleClosingModals={handleClosingModals}
             />
         </Modal>
     )

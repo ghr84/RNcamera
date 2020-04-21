@@ -104,9 +104,13 @@ export default function App() {
   // og setjum state-ið með þeirri mynd og birtum í myndaModalnum. Að lokum verður 
   // state-ið = true, sem heldur utan um að birta myndaModalinn.
 
-  const handlePhotoModal = (image) => {
+  const [imageIndex, setImageIndex] = useState()
+
+  const handlePhotoModal = (image, index) => {
     setModalImage(image)
     setPhotoModalVisibility(true)
+    setImageIndex(index)
+
   }
 
   return (
@@ -128,6 +132,7 @@ export default function App() {
         photoModalVisable={photoModalVisable}
         setPhotoModalVisibility={setPhotoModalVisibility}
         deletePhoto={deletePhoto}
+        imageIndex={imageIndex}
       />
       <SuccessBadgeModal showSuccessBadge={showSuccessBadge} />
     </View>

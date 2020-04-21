@@ -10,7 +10,7 @@ export default Photo = ({ imageArray, handlePhotoModal, setDeletePhotoModalVisib
         <View style={styles.photoCardContainer}>
             {imageArray.map((image, index) =>
                 <View key={index}>
-                    <TouchableOpacity onPress={() => handlePhotoModal(image)}>
+                    <TouchableOpacity onPress={() => handlePhotoModal(image, index)}>
                         <View style={styles.photoCard} >
                             <Image style={styles.photo} source={{ uri: `data:image/png;base64,${image}` }} />
                             <TouchableOpacity style={styles.closeBtn} onPress={() => setDeletePhotoModalVisible(index)}>

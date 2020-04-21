@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { StyleSheet, View, TouchableOpacity, Text, Animated } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, TouchableOpacity, Text, Animated, Image } from 'react-native';
 
-export default PhotoModalBtmMenu = ({ animatedStyles, deletePhoto, modalImage }) => {
+export default PhotoModalBtmMenu = ({ animatedStyles, deletePhoto, modalImage, imageIndex, setPhotoModalVisibility, setActivated }) => {
 
     // Tjekkar ef mynd er portrait og ef fallið skilar true er viðeigandi stílar settir á btmModal 
 
@@ -22,13 +22,19 @@ export default PhotoModalBtmMenu = ({ animatedStyles, deletePhoto, modalImage })
         });
     }
 
+    const handleCloseModalOnDelete = () => {
+        deletePhoto(imageIndex)
+        setPhotoModalVisibility(false)
+        setActivated(false)
+    }
+
 
     return (
         <Animated.View style={animatedStyles.upper}>
             <View
-                style={styles.modalContainer}
+                style={IsPhotoPortrait() ? styles.modalContainerPortrait : styles.modalContainer}
             >
-                <TouchableOpacity style={styles.btmMenuBtn} onPress={deletePhoto}>
+                <TouchableOpacity style={styles.btmMenuBtn} onPress={() => handleCloseModalOnDelete()}>
                     <Text style={styles.delBtnText}>Eyða mynd</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.btmMenuBtn}>

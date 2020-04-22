@@ -40,7 +40,7 @@ export default PhotoModalBtmMenu = ({ animatedStyles, deletePhoto, modalImage, i
                 <TouchableOpacity style={styles.btmMenuBtn}>
                     <Text style={styles.menuText}>Vista mynd</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.btmMenuBtn} >
+                <TouchableOpacity style={styles.btmMenuBtn} onPress={() => setActivated(false)} >
                     <Text style={styles.menuText}>Hætta við</Text>
                 </TouchableOpacity>
             </View>
@@ -84,11 +84,11 @@ const styles = StyleSheet.create({
 
     },
     menuText: {
-        fontSize: 22,
+        fontSize: 20,
         fontWeight: "500"
     },
     delBtnText: {
-        fontSize: 22,
+        fontSize: 20,
         color: "#EB5757",
         fontWeight: "500"
     }

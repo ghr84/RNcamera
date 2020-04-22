@@ -17,8 +17,6 @@ export default delPhotoModal = ({ deletePhotoModalVisible, setDeletePhotoModalVi
                 animationOutTiming={300}
                 backdropTransitionOutTiming={0}
                 backdropOpacity={0.5}
-                // modal festist efst á skjá með þessa virkni 
-                // Nema ég setti pos abs og top 420 ,, virkar ekki að nota bottom 0 ??
                 swipeDirection={"down"}
                 swipeThreshold={50}
                 onSwipeComplete={() => { setDeletePhotoModalVisible(false) }}
@@ -49,13 +47,11 @@ export default delPhotoModal = ({ deletePhotoModalVisible, setDeletePhotoModalVi
 const styles = StyleSheet.create({
     modalContainer: {
         width: "100%",
-        // maxHeight: 240,
         alignSelf: "center",
         backgroundColor: 'white',
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
         position: "absolute",
-        // bottom: 0,
         top: 429,
         margin: 0,
     },
@@ -81,23 +77,22 @@ const styles = StyleSheet.create({
         fontWeight: "400"
     },
     titleText: {
-        // textAlign: "center",
         color: "#333333",
         fontSize: 20,
         fontWeight: "bold"
     },
     btnHolder: {
-        height: 130,
+        height: 142,
         flexDirection: "column",
         justifyContent: "space-between",
         alignItems: "center",
         paddingHorizontal: 16,
-        paddingBottom: 32,
+        paddingBottom: 40,
         marginTop: 28
     },
     cancelBtn: {
         fontSize: 14,
-        height: 44,
+        height: 46,
         width: "100%",
         borderRadius: 4,
         borderColor: "#B1B1B1",
@@ -108,10 +103,10 @@ const styles = StyleSheet.create({
     cancelBtnText: {
         fontSize: 18,
         color: "#333333",
-        fontWeight: "bold"
+        fontWeight: "500"
     },
     confirmBtn: {
-        height: 46,
+        height: 48,
         width: "100%",
         backgroundColor: "#EB5757",
         borderRadius: 4,
@@ -121,7 +116,7 @@ const styles = StyleSheet.create({
     confirmBtnText: {
         color: "white",
         fontSize: 19,
-        fontWeight: "bold"
+        fontWeight: "500"
     },
 
 })

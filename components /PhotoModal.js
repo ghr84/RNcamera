@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, TouchableOpacity, Image, Animated } from 'react-native';
-import { Feather } from '@expo/vector-icons/'
+import { StyleSheet, View, TouchableOpacity, Image, Animated, TouchableWithoutFeedback } from 'react-native';
 import Modal from 'react-native-modal';
 
 
 // Local Imports
 
 import ModalBtmMenu from './PhotoModalBtmMenu';
+import CloseBtn from './CloseIconBtn';
+import MoreOptionsBtn from './MoreOptionsBtn';
 
 export default PhotoModal = ({ photoModalVisable, modalImage, setPhotoModalVisibility, deletePhoto, imageIndex }) => {
 
@@ -63,40 +64,46 @@ export default PhotoModal = ({ photoModalVisable, modalImage, setPhotoModalVisib
         }
     }
     return (
-        <Modal
-            style={styles.modalContainer}
-            isVisible={photoModalVisable}
-            animationIn="slideInUp"
-            animationOut="slideOutDown"
-            animationInTiming={300}
-            animationOutTiming={300}
-            backdropTransitionOutTiming={0}
-        >
-            <View style={styles.modalPhotoHeader}>
-                <TouchableOpacity onPress={() => handleClosingModals()}>
-                    <Feather style={styles.modalCloseBtn} name="x" size={28} color={"white"} />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => btmModalAnimation()}>
-                    <Feather style={styles.modalDelBtn} name="more-horizontal" size={28} color={"white"} />
-                </TouchableOpacity>
-            </View>
-            <View >
-                <Image style={IsPhotoPortrait() ? styles.modalPhotoPortrait : styles.modalPhoto} source={{ uri: `data:image/png;base64,${modalImage}` }} />
-            </View>
-            <ModalBtmMenu
-                setActivated={setActivated}
-                setPhotoModalVisibility={setPhotoModalVisibility}
-                animatedStyles={animatedStyles}
-                deletePhoto={deletePhoto}
-                imageIndex={imageIndex}
-                modalImage={modalImage}
-                handleClosingModals={handleClosingModals}
-            />
-        </Modal>
+        <TouchableWithoutFeedback
+            style={{ flex: 1 }}
+            onPress={() => setActivated(false)}>
+            <Modal
+                style={styles.modalContainer}
+                isVisible={photoModalVisable}
+                animationIn="slideInUp"
+                animationOut="slideOutDown"
+                animationInTiming={300}
+                animationOutTiming={300}
+                backdropTransitionOutTiming={0}
+                onPress={() => console.log("Yead")}
+            >
+                <View style={styles.modalPhotoHeader}>
+                    <TouchableOpacity onPress={() => handleClosingModals()}>
+                        <CloseBtn />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => btmModalAnimation()}>
+                        <MoreOptionsBtn />
+                    </TouchableOpacity>
+                </View>
+                <View >
+                    <Image style={IsPhotoPortrait() ? styles.modalPhotoPortrait : styles.modalPhoto} source={{ uri: `data:image/png;base64,${modalImage}` }} />
+                </View>
+                <ModalBtmMenu
+                    setActivated={setActivated}
+                    setPhotoModalVisibility={setPhotoModalVisibility}
+                    animatedStyles={animatedStyles}
+                    deletePhoto={deletePhoto}
+                    imageIndex={imageIndex}
+                    modalImage={modalImage}
+                    handleClosingModals={handleClosingModals}
+                />
+            </Modal>
+        </TouchableWithoutFeedback>
     )
 }
 const styles = StyleSheet.create({
     modalContainer: {
+        zIndex: 10,
         position: "relative",
         height: "100%",
         width: "100%",
@@ -111,8 +118,6 @@ const styles = StyleSheet.create({
         top: 0,
         width: "100%",
         backgroundColor: "transparent",
-        paddingTop: 20,
-        paddingHorizontal: 4,
         borderTopLeftRadius: 4,
         borderTopRightRadius: 4,
         flexDirection: "row",

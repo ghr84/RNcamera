@@ -12,7 +12,8 @@ import { Camera } from 'expo-camera';
 // Local imports 
 
 import TakePicBtn from '../components /TakePicBtn';
-import CloseBtn from '../components /CloseBtn';
+// import CloseBtn from '../components /CloseBtn';
+import CloseBtn from '../components /CloseIconBtn';
 
 
 export default Cam = ({ handleCameraChange, takePicture }) => {
@@ -43,8 +44,9 @@ export default Cam = ({ handleCameraChange, takePicture }) => {
                     camera = ref;
                 }}
             >
-
-                <CloseBtn handleCameraChange={handleCameraChange}></CloseBtn>
+                <TouchableOpacity onPress={handleCameraChange}>
+                    <CloseBtn />
+                </TouchableOpacity>
                 <View style={styles.bottomContainer}>
                     <TouchableOpacity style={styles.icons} onPress={() => {
                         setFlashStatus(
